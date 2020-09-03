@@ -19,29 +19,33 @@
         <link rel="stylesheet" type="text/css" href="./index.css">
     </head>
     <body class="bg-dark">
-        <div class="container text-center bg-dark">
+        <div class="container bg-dark">
             <div class="row pt-4 mb-4">
-                <div class="col">
+                <div class="col text-center">
                     <button class="btn btn-secondary" onclick="startMaze()">Generálás</button>
                     <button id="solverButton" class="btn btn-secondary hidden" onclick="startSolver()">Megoldás</button>
                 </div>
             </div>
             <div class="row pb-4">
-                <div class="col align-left">
-                </div>
+                <div class="col"></div>
                 <div class="col">
                     <canvas class="" id="maze" width="700" height="700" style="background-color: grey;"></canvas>
                 </div>
                 <div class="col">
                     <div class="row text-center">
                         <h4>Labirintus generáló</h4>
-                        <h6></h6>
-                        <input class="tickSpeed" id="tickSpeed" type="number" name="tickSpeed" placeholder="TickSpeed" min="0" max="1000" value="0" onchange="updateValue('tickSpeed', event, 0, 1000)">
-                        <input class="tickSpeed" type="range" min="0" max="1000" value="0" class="slider" name="tickSpeed" id="tickSpeed" onchange="updateValue('tickSpeed', event, 0, 1000)">
-                        <h6>Szélesség</h6>
-                        <input class="width" type="number" name="width" placeholder="Szélesség" min="5" max="15" value="10" onchange="updateValue('width', event, 5, 15)">
-                        <label for="height">Magasság</label>
-                        <input class="height" type="number" name="height" placeholder="Magasság" min="5" max="15" value="10" onchange="updateValue('height', event, 5, 15)">
+                        <div class="mt-2 mb-2">
+                            <input class="tickSpeed" id="tickSpeed" type="number" name="tickSpeed" placeholder="TickSpeed" min="0" max="1000" value="0" onchange="updateValue('tickSpeed', event, 0, 1000)">
+                            <input class="tickSpeed" type="range" min="0" max="1000" value="0" class="slider" name="tickSpeed" id="tickSpeed" onchange="updateValue('tickSpeed', event, 0, 1000)">
+                        </div>
+                        <div class="mt-2 mb-2">
+                            <label for="width">Szélesség</label>
+                            <input id="width" class="width" type="number" name="width" placeholder="Szélesség" min="5" max="15" value="10" onchange="updateValue('width', event, 5, 15)">
+                        </div>
+                        <div class="mt-2 mb-2">
+                            <label for="height">Magasság</label>
+                            <input id="height" class="height" type="number" name="height" placeholder="Magasság" min="5" max="15" value="10" onchange="updateValue('height', event, 5, 15)">
+                        </div>
                         <label for="generatorSelector">Generáló algoritmus</label>
                             <select id="generatorSelector" class="generator" name="generator" onchange="updateValue('generator', event)">
                                 <option value="aldous">Aldous-Broder algoritmus</option>

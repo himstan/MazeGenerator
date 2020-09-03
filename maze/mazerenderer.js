@@ -54,6 +54,7 @@ class MazeRenderer {
 
     drawSolver() {
         let mazeSolver = this._mazeSolver;
+        let color = "blue";
         if (mazeSolver !== undefined) {
             let drawnTile = [];
             let solvePath = mazeSolver.getSolvePath();
@@ -63,7 +64,10 @@ class MazeRenderer {
                 if (drawnTile.includes(tile)) {
                     continue;
                 }
-                this.renderIterator(tile, "blue");
+                if (mazeSolver.isSolved()) {
+                    color = "green";
+                }
+                this.renderIterator(tile, color);
                 drawnTile.push(tile);
             }
         }
