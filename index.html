@@ -22,8 +22,8 @@
         <div class="container text-center bg-dark">
             <div class="row pt-4 mb-4">
                 <div class="col">
-                    <button class="btn btn-secondary" onclick="startMaze()">Indítás</button>
-                    <button class="btn btn-secondary" onclick="startSolver()">Megoldás</button>
+                    <button class="btn btn-secondary" onclick="startMaze()">Generálás</button>
+                    <button id="solverButton" class="btn btn-secondary hidden" onclick="startSolver()">Megoldás</button>
                 </div>
             </div>
             <div class="row pb-4">
@@ -39,15 +39,15 @@
                         <input class="tickSpeed" id="tickSpeed" type="number" name="tickSpeed" placeholder="TickSpeed" min="0" max="1000" value="0" onchange="updateValue('tickSpeed', event, 0, 1000)">
                         <input class="tickSpeed" type="range" min="0" max="1000" value="0" class="slider" name="tickSpeed" id="tickSpeed" onchange="updateValue('tickSpeed', event, 0, 1000)">
                         <h6>Szélesség</h6>
-                        <input id="width" type="number" name="width" placeholder="Szélesség" min="1" max="25" value="10" onchange="updateValue('width', event, 5, 20)">
+                        <input class="width" type="number" name="width" placeholder="Szélesség" min="5" max="15" value="10" onchange="updateValue('width', event, 5, 15)">
                         <label for="height">Magasság</label>
-                        <input id="height" type="number" name="height" placeholder="Magasság" min="1" max="25" value="10" onchange="updateValue('height', event, 5, 20)">
+                        <input class="height" type="number" name="height" placeholder="Magasság" min="5" max="15" value="10" onchange="updateValue('height', event, 5, 15)">
                         <label for="generatorSelector">Generáló algoritmus</label>
-                            <select name="generator" onchange="updateValue('generator', event)">
+                            <select id="generatorSelector" class="generator" name="generator" onchange="updateValue('generator', event)">
                                 <option value="aldous">Aldous-Broder algoritmus</option>
                             </select>
-                        <label for="generatorSelector">Megoldó algoritmus</label>
-                            <select name="generator" onchange="updateValue('solver', event)">
+                        <label for="solverSelector">Megoldó algoritmus</label>
+                            <select id="solverSelector" class="generator" name="generator" onchange="updateValue('solver', event)">
                                 <option value="left-wall">Bal fal követő</option>
                                 <option value="right-wall">Jobb fal követő</option>
                             </select>

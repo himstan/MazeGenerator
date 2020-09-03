@@ -2,6 +2,7 @@
 let maze = undefined;
 let mazeRenderer = undefined;
 let mazeSolver = undefined;
+
 const settings = {
     tickSpeed: 0,
     width: 10,
@@ -24,7 +25,16 @@ function updateValue(valueName, event, min, max) {
     settings[valueName] = newValue;
 }
 
+function hideElement(elementID) {
+    document.getElementById(elementID).classList.add("hidden");
+}
+
+function showElement(elementID) {
+    document.getElementById(elementID).classList.remove("hidden");
+}
+
 function startMaze() {
+    hideElement("solverButton");
     if (maze !== undefined) {
         maze.forceStop = true;
     }
@@ -41,6 +51,7 @@ function startMaze() {
     mazeRenderer = new MazeRenderer(maze, mazeSolver);
     maze.buildMaze((obj) => {
         console.log("built maze in " + obj.elapsedTime + "ms");
+        showElement("solverButton");
     });
     mazeRenderer.startRender();
 }

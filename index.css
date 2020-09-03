@@ -5,3 +5,7 @@ h4,p {
 canvas {
     background-color: gray;
 }
+
+.hidden {
+    display: none;
+}
