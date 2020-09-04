@@ -1,6 +1,6 @@
 class WallSolver extends MazeSolver {
 
-    constructor(maze) {
+    constructor(maze, wallSide = "left") {
         super(maze);
         this._directions = {
             left: {
@@ -17,21 +17,21 @@ class WallSolver extends MazeSolver {
             }
         }
         this._facing = "north";
-        this._wallSide = "left";
+        this._wallSide = wallSide;
     }
 
     async _solveMaze(callback, onDone) {
         this.setCurrentTile(this.getStarterTile());
         let finishTile = this.getFinishTile();
         while(this.getCurrentTile() !== finishTile || !this.isSolving) {
-            // if can turn left, turns left and takes a step in that direction
-            if (this.canTurnDirection("left")) {
-                this.turn("left");
+            // if can turn %wallside%, turns %wallside% and takes a step in that direction
+            if (this.canTurnDirection(this._wallSide)) {
+                this.turn(this._wallSide);
                 this.moveToTile(this.getFacing());
             } else {
-                // if can't go forward then turn right, else go forward
+                // if can't go forward then turn %opposite_wallside%, else go forward
                 if (!this.canMoveToTile(this.getFacing())) {
-                    this.turn("right");
+                    this.turn(this.getOppositeWallSide());
                 } else {
                     this.moveToTile(this.getFacing());
                 }
