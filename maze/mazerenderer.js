@@ -1,17 +1,48 @@
 class MazeRenderer {
     constructor(maze, mazeSolver) {
-        this.maze = maze;
-        this._mazeSolver = mazeSolver;
         this.canvas = document.getElementById("maze");
         this.ctx = this.canvas.getContext("2d");
-        this.tileSize = (this.canvas.width / maze.width);
+        this.setMaze(maze);
+        this.setMazeSolver(mazeSolver);
+        this.tileSize;
         this.forceStop = false;
+        this._isRendering = false;
     }
 
-    startRender() {
-        this.forceStop = true;
+    setMazeSolver(mazeSolver) {
+        this._mazeSolver = mazeSolver;
+    }
+
+    setMaze(maze) {
+        this.maze = maze;
+        if (maze !== undefined) {
+            this.tileSize = this._getTileSize();
+        }
+    }
+
+    _getTileSize() {
+        let axis = this.maze.getAxis();
+        if (axis == 'y') {
+            return (this.canvas.height) / (this.maze.height);
+        } else {
+            return (this.canvas.width) / (this.maze.width);
+        }
+    }
+
+    startRender(onRenderStop) {
+        if (this.isRendering()) {
+            this.stopRendering();
+        }
         this.forceStop = false;
-        this.renderMaze();
+        this.renderMaze(onRenderStop);
+    }
+
+    stopRendering() {
+        this.forceStop = true;
+    }
+
+    isRendering() {
+        return this._isRendering;
     }
 
     renderIterator(tile, color = "red") {
@@ -73,18 +104,21 @@ class MazeRenderer {
         }
     }
 
-    async renderMaze() {
+    async renderMaze(onRenderStop) {
+        this.forceStop = false;
         while (!((maze == undefined || maze.isFinished) && (mazeSolver == undefined || mazeSolver.isSolved()))) {
             this.clearCanvas();
             if (this.forceStop) {
                 return;
             }
-            this.drawMaze();
-            this.drawSolver();
+            this.draw();
             await sleep(settings.tickSpeed);
         }
         this.clearCanvas();
         this.draw();
+        if (onRenderStop !== undefined) {
+            onRenderStop();
+        }
     }
 
     draw() {

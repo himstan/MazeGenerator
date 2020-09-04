@@ -29,36 +29,53 @@ class Maze {
         return this.isFinished;
     }
 
-    buildMaze(callback) {
+    buildMaze(onStart, onEnd) {
+        this.isFinished = false;
         this.forceStop = true;
         this.initMap();
         this.startTime = Date.now();
         this.forceStop = false;
-        this.buildAldousMaze(this.startTile, callback);
+        this.buildAldousMaze(onStart, onEnd);
     }
 
-    async buildAldousMaze(currentTile, callback) {
-        if (this.unvisitedTiles === 0 || this.forceStop) {
-            if (callback != undefined) {
-                let elapsedTime = (Date.now() - this.startTime);
-                callback({
-                    elapsedTime: elapsedTime
-                });
+    getAxis() {
+        console.log("height: " + this.height + " width: " + this.width);
+        if (parseInt(this.height,10)>parseInt(this.width,10)) {
+            return "y";
+        } else {
+            return "x";
+        }
+    }
+
+    setCurrentTile(tile) {
+        this.currentTile = tile;
+    }
+
+    async buildAldousMaze(onStart, onEnd) {
+        this.setCurrentTile(this.startTile);
+        if (onStart !== undefined) {
+            onStart();
+        }
+        while (this.unvisitedTiles > 0 && !this.forceStop) {
+            let currentTile = this.currentTile;
+            let nextTileObject = currentTile.pickRandomNeighbour();
+            let nextTile = nextTileObject.tile;
+            if (!nextTile.isVisited("generator")) {
+                this.removeWallsBetweenTiles(currentTile, nextTileObject);
+                nextTile.visit("generator");
             }
-            this.isFinished = true;
-            return;
+            this.setCurrentTile(nextTile);
+            if (settings.tickSpeed > 0) {
+                await sleep(settings.tickSpeed);
+            }
         }
-        this.currentTile = currentTile;
-        let nextTileObject = currentTile.pickRandomNeighbour();
-        let nextTile = nextTileObject.tile;
-        if (!nextTile.isVisited("generator")) {
-            this.removeWallsBetweenTiles(currentTile, nextTileObject);
-            nextTile.visit("generator");
+        if (onEnd !== undefined) {
+            let elapsedTime = (Date.now() - this.startTime);
+            onEnd({
+                elapsedTime: elapsedTime
+            });
         }
-        if (settings.tickSpeed > 0) {
-            await sleep(settings.tickSpeed);
-        }
-        return this.buildAldousMaze(nextTile, callback);
+        this.isFinished = true;
     }
 
     removeWallsBetweenTiles(currentTile, nextTileObject) {

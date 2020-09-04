@@ -1,12 +1,12 @@
 
 let maze = undefined;
-let mazeRenderer = undefined;
 let mazeSolver = undefined;
+let mazeRenderer = undefined;
 
 const settings = {
     tickSpeed: 0,
-    width: 10,
-    height: 10,
+    width: 15,
+    height: 15,
     generator: 'aldeous',
     solver: 'left-wall'
 }
@@ -37,23 +37,32 @@ function startMaze() {
     hideElement("solverButton");
     if (maze !== undefined) {
         maze.forceStop = true;
+        maze = undefined;
     }
-    if (mazeRenderer !== undefined) {
-        mazeRenderer.forceStop = true;
-    }
-    maze = new Maze(settings.width, settings.height);
+    let mazeWidth = settings.width;
+    let mazeHeight = settings.height;
+    maze = new Maze(mazeWidth, mazeHeight);
     switch (settings.solver) {
         case "left-wall":
             mazeSolver = new WallSolver(maze, "left");
         case "right-wall":
             mazeSolver = new WallSolver(maze, "right");
     }
-    mazeRenderer = new MazeRenderer(maze, mazeSolver);
-    maze.buildMaze((obj) => {
+    if (mazeRenderer !== undefined) {
+        mazeRenderer.stopRendering();
+        mazeRenderer.setMaze(maze);
+        mazeRenderer.setMazeSolver(mazeSolver);
+    } else {
+        mazeRenderer = new MazeRenderer(maze, mazeSolver);
+    }
+    maze.buildMaze(() => {
+        console.log("started building maze");
+    },
+    (obj) => {
         console.log("built maze in " + obj.elapsedTime + "ms");
         showElement("solverButton");
     });
-    mazeRenderer.startRender();
+    mazeRenderer.renderMaze();
 }
 
 function startSolver() {
