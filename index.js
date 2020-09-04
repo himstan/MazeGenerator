@@ -4,7 +4,7 @@ let mazeSolver = undefined;
 let mazeRenderer = undefined;
 
 const settings = {
-    tickSpeed: 0,
+    tickSpeed: 500,
     width: 15,
     height: 15,
     generator: 'aldeous',
@@ -59,8 +59,12 @@ function startMaze() {
         console.log("started building maze");
     },
     (obj) => {
-        console.log("built maze in " + obj.elapsedTime + "ms");
-        showElement("solverButton");
+        if (!obj.forceStop) {
+            console.log("built maze in " + obj.elapsedTime + "ms");
+            showElement("solverButton");
+        } else {
+            console.log("maze terminated");
+        }
     });
     mazeRenderer.renderMaze();
 }
@@ -70,6 +74,6 @@ function startSolver() {
         return;
     }
     mazeSolver.solveMaze(() => {
-        console.log("solved maze");
+        console.log("maze solved");
     });
 }

@@ -35,8 +35,9 @@
                     <div class="row text-center">
                         <h4>Labirintus generáló</h4>
                         <div class="mt-2 mb-2">
-                            <input class="tickSpeed" id="tickSpeed" type="number" name="tickSpeed" placeholder="TickSpeed" min="0" max="1000" value="0" onchange="updateValue('tickSpeed', event, 0, 1000)">
-                            <input class="tickSpeed" type="range" min="0" max="1000" value="0" class="slider" name="tickSpeed" id="tickSpeed" onchange="updateValue('tickSpeed', event, 0, 1000)">
+                            <h6>ms/lépés</h6>
+                            <input class="tickSpeed" id="tickSpeed" type="number" name="tickSpeed" placeholder="TickSpeed" min="0" max="1000" value="500" onchange="updateValue('tickSpeed', event, 0, 1000)">
+                            <input class="tickSpeed" type="range" min="0" max="1000" value="500" class="slider" name="tickSpeed" id="tickSpeed" onchange="updateValue('tickSpeed', event, 0, 1000)">
                         </div>
                         <div class="mt-2 mb-2">
                             <label for="width">Szélesség</label>

@@ -39,7 +39,6 @@ class Maze {
     }
 
     getAxis() {
-        console.log("height: " + this.height + " width: " + this.width);
         if (parseInt(this.height,10)>parseInt(this.width,10)) {
             return "y";
         } else {
@@ -72,6 +71,7 @@ class Maze {
         if (onEnd !== undefined) {
             let elapsedTime = (Date.now() - this.startTime);
             onEnd({
+                forceStop: this.forceStop,
                 elapsedTime: elapsedTime
             });
         }
